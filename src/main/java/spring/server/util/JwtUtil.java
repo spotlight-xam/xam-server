@@ -3,20 +3,22 @@ package spring.server.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
+@Slf4j
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private static String secretKey;
 
+    //일주일
     private static long access_token_expires =1000L * 60 * 60 * 24 * 7;
 
-    public static String createJwt(String username){
+    public static String createJwt(String email, String secretKey){
         Claims claims = Jwts.claims();
-        claims.put("username", username);
+        claims.put("email", email);
+
 
         return Jwts.builder()
                 .setClaims(claims)

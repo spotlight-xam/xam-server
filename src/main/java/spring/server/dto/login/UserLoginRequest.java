@@ -1,18 +1,17 @@
-package spring.server.entity.dto.login;
+package spring.server.dto.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSignupRequest {
+public class UserLoginRequest {
 
     private String email;
 
     private String password;
+
+
 }

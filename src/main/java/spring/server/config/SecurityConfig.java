@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeHttpRequests()
-                .antMatchers().permitAll()
+                .antMatchers("/**").permitAll()
                 .and().build();
     }
 }

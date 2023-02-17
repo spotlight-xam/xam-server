@@ -20,9 +20,6 @@ public class Feed {
 
     private String content;
 
-    @ManyToOne
-    private User user;
-
 
 
 }

@@ -5,7 +5,7 @@ import spring.server.entity.User;
 
 import java.util.Optional;
 
-public interface UserAuthRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 
     Optional<User> findByEmail(String email);
