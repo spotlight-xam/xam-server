@@ -5,7 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.lang.reflect.Member;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -14,9 +15,17 @@ import java.lang.reflect.Member;
 public class Feed {
 
     @Id @GeneratedValue
+    @Column(name = "feed_id")
     private Long id;
 
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User writer;
+
+    @OneToMany(mappedBy = "image")
+    private List<Image> images = new ArrayList<>();
 
     private String content;
 

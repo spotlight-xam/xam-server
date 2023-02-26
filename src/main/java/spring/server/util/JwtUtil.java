@@ -11,6 +11,10 @@ import java.util.Date;
 @Slf4j
 public class JwtUtil {
 
+    public static boolean isExpired(String token, String secretKey){
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+                .getBody().getExpiration().before(new Date());
+    }
 
     //일주일
     private static long access_token_expires =1000L * 60 * 60 * 24 * 7;

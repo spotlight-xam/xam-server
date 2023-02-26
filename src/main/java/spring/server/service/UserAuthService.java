@@ -18,8 +18,10 @@ import spring.server.repository.email.EmailRepositoryImpl;
 import spring.server.service.email.EmailService;
 import spring.server.util.JwtUtil;
 
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.UUID;
 
 @Service
@@ -73,7 +75,7 @@ public class UserAuthService {
     }
 
     @Transactional
-    public UserSignUpResponse signup(UserSignupRequest request) {
+    public UserSignUpResponse signup(UserSignupRequest request) throws MessagingException {
         //생성
 //        if(userRepository.findByEmail(request.getEmail()).isPresent()){
 //            //이메일 이미 존재 에러
@@ -102,7 +104,9 @@ public class UserAuthService {
 
         log.info("user  생성 완료");
 
-        emailService.send(email.getEmail(), email.getAuthToken());
+        HashMap<String, String> emailValues = new HashMap<>();
+        emailValues.put("email", user.getEmail());
+        emailService.send("이메일 인증", email.getEmail(), emailValues, email.getAuthToken());
 
         log.info("email send 완료");
 

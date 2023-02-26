@@ -11,6 +11,8 @@ import spring.server.dto.login.UserSignUpResponse;
 import spring.server.dto.login.UserSignupRequest;
 import spring.server.service.UserAuthService;
 
+import javax.mail.MessagingException;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class UserAuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserSignUpResponse> signup(@RequestBody UserSignupRequest userSignupRequest){
+    public ResponseEntity<UserSignUpResponse> signup(@RequestBody UserSignupRequest userSignupRequest) throws MessagingException {
         log.info("signup controller 실행");
         UserSignUpResponse signupResponse = userAuthService.signup(userSignupRequest);
         return ResponseEntity.ok().body(signupResponse);

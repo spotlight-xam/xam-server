@@ -6,10 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,6 +19,7 @@ import javax.persistence.Table;
 public class User {
 
     @Id @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
 
     private String email;
@@ -30,6 +31,15 @@ public class User {
     private String refreshToken;
 
     private Boolean emailAuth;
+
+    @OneToMany(mappedBy = "writer")
+    private List<Feed> feedList = new ArrayList<>();
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @Builder
     public User(String email, String username, String password, String refreshToken, Boolean emailAuth) {
