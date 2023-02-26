@@ -14,7 +14,7 @@ public class UserInfoRequest {
     private String username;
 
     //프로필 사진
-//    private
+    private String dfkjdakfj;
 
     //태그
 
