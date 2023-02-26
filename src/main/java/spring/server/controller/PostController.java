@@ -7,14 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import spring.server.dto.feed.FeedPostResponse;
+import spring.server.service.PostService;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class PostController {
 
-    @PostMapping("/post")
-    public ResponseEntity<FeedPostResponse> post(@ModelAttribute FeedPostRequest feedPostRequest){
+    private final PostService postService;
 
+    @PostMapping("/post")
+    public ResponseEntity<FeedPostResponse> upload(@ModelAttribute FeedPostRequest feedPostRequest){
+        postService.
     }
 }

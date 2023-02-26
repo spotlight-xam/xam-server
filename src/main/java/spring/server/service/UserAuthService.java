@@ -15,6 +15,8 @@ import spring.server.repository.UserRepository;
 import spring.server.repository.email.EmailCustomRepository;
 import spring.server.repository.email.EmailRepository;
 import spring.server.repository.email.EmailRepositoryImpl;
+import spring.server.result.error.exception.EmailAuthTokenNotFoundException;
+import spring.server.result.error.exception.UserNotFoundException;
 import spring.server.service.email.EmailService;
 import spring.server.util.JwtUtil;
 
@@ -61,13 +63,11 @@ public class UserAuthService {
     @Transactional
     public void confirmEmail(EmailAuthRequest request){
         Email email = emailRepository.findValidAuthByEmail(request.getEmail(), request.getAuthToken(), LocalDateTime.now())
-                    .orElseThrow(RuntimeException::new);
-//                .orElseThrow(EmailAuthTokenNotFoundException::new);
+                .orElseThrow(EmailAuthTokenNotFoundException::new);
 
 
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(RuntimeException::new);
-//                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(UserNotFoundException::new);
 
         email.useToken();
         user.emailVerifiedSuccess();

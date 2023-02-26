@@ -1,6 +1,7 @@
 package spring.server.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Feed {
 
@@ -29,6 +29,12 @@ public class Feed {
 
     private String content;
 
+    private String comment;
 
-
+    @Builder
+    public Feed(String title, User writer, String content) {
+        this.title = title;
+        this.writer = writer;
+        this.content = content;
+    }
 }
