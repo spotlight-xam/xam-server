@@ -6,7 +6,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ResultCode {
+public enum ResultCode {
+
+    DeleteFeedSuccess(200, "F001", "게시물 삭제 성공");
 
     private final int status;
     private final String code;

@@ -24,7 +24,7 @@ public class Feed {
     @JoinColumn(name = "user_id")
     private User writer;
 
-    @OneToMany(mappedBy = "image")
+    @OneToMany(mappedBy = "feed")
     private List<Image> images = new ArrayList<>();
 
     private String content;

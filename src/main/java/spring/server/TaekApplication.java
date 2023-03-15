@@ -16,9 +16,4 @@ public class TaekApplication {
 
 	}
 
-	@Bean
-	JPAQueryFactory jpaQueryFactory(EntityManager entityManager){
-		return new JPAQueryFactory(entityManager);
-	}
-
 }

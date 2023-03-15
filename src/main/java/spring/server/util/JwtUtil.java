@@ -3,10 +3,12 @@ package spring.server.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import spring.server.entity.User;
 import spring.server.repository.UserRepository;
 import spring.server.result.error.exception.UserDoesNotExistException;
@@ -15,6 +17,7 @@ import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtUtil {
 
     private final UserRepository userRepository;

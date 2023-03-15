@@ -4,16 +4,19 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import spring.server.entity.Email;
 import spring.server.entity.QEmail;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class EmailRepositoryImpl implements EmailCustomRepository{
 
-    JPAQueryFactory jpaQueryFactory;
+    private final EntityManager em;
+    private final JPAQueryFactory jpaQueryFactory;
 
-    public EmailRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
-        this.jpaQueryFactory = jpaQueryFactory;
+    public EmailRepositoryImpl(EntityManager em) {
+        this.em = em;
+        this.jpaQueryFactory = new JPAQueryFactory(em);
     }
 
     @Override

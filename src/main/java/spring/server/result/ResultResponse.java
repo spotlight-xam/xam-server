@@ -3,7 +3,6 @@ package spring.server.result;
 import lombok.Getter;
 
 @Getter
-
 public class ResultResponse {
 
 
