@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Team {
 
+    private String master;
 
     @Id @GeneratedValue
     @Column(name = "team_id")
