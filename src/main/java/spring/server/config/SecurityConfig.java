@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import spring.server.config.security.filter.JwtFilter;
+//import spring.server.config.security.filter.JwtFilter;
 import spring.server.service.UserAuthService;
 
 @Configuration
@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .cors().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new JwtFilter(userAuthService, secretKey), UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new JwtFilter(userAuthService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .antMatchers("/signup", "/login").permitAll()
                 .and().build();

@@ -16,6 +16,7 @@ import spring.server.repository.email.EmailCustomRepository;
 import spring.server.repository.email.EmailRepository;
 import spring.server.repository.email.EmailRepositoryImpl;
 import spring.server.result.error.exception.EmailAuthTokenNotFoundException;
+import spring.server.result.error.exception.EmailIsAlreadyExisted;
 import spring.server.result.error.exception.UserNotFoundException;
 import spring.server.service.email.EmailService;
 import spring.server.util.JwtUtil;
@@ -25,6 +26,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -43,8 +45,7 @@ public class UserAuthService {
 
         //유저 업승ㅁ
         User user = userRepository.findByEmail(userLoginRequest.getEmail())
-                .orElseThrow(RuntimeException::new);
-//                .orElseThrow(EmailIsAlreadyExisted::new)
+                .orElseThrow(EmailIsAlreadyExisted::new);
 
         log.info("request={}, user pw={}", userLoginRequest.getPassword(), user.getPassword());
 
@@ -114,6 +115,7 @@ public class UserAuthService {
                 .email(user.getEmail())
                 .authToken(email.getAuthToken())
                 .build();
+
 
   }
 

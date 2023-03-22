@@ -22,7 +22,10 @@ public class UserAuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest userLoginRequest){
-        return ResponseEntity.ok().body(userAuthService.login(userLoginRequest));
+        log.info("서비스 시작");
+        final String login = userAuthService.login(userLoginRequest);
+        log.info("서비스 끝");
+        return ResponseEntity.ok().body(login);
     }
 
     @GetMapping("/confirm-email")

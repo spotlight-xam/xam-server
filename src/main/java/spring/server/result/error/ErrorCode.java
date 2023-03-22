@@ -9,8 +9,10 @@ import lombok.Getter;
 public enum ErrorCode {
 
     UserDoesNotExistException(500, "U001", "내부 서버 오류입니다."),
-    EmailAuthTokenNotFound(500, "002", "토큰이 확인되지 않았습니다."),
-    UserNotFound(500, "U002", "유저가 확인되지 않았습니다.")
+    EmailAuthTokenNotFound(500, "E001", "토큰이 확인되지 않았습니다."),
+    UserNotFound(500, "U002", "유저가 확인되지 않았습니다."),
+    FileConvertException(500, "F001", "파일 변환에 실패하였습니다."),
+    EmailIsAlreadyExisted(500, "E002", "이메일이 이미 있습니다"),
     ;
 
     private final int status;

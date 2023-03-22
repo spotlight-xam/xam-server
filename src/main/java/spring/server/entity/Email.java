@@ -36,6 +36,7 @@ public class Email {
         this.expireDate = LocalDateTime.now().plusMinutes(MAX_EXPIRE_TIME);
     }
 
+
     public void useToken(){
         this.expired=true;
     }

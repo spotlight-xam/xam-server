@@ -23,7 +23,8 @@ public class JwtUtil {
     private final UserRepository userRepository;
 
     public static boolean isExpired(String token, String secretKey){
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+
+        return Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token)
                 .getBody().getExpiration().before(new Date());
     }
 
@@ -45,8 +46,8 @@ public class JwtUtil {
         }
     }
 
-    //일주일
-    private static long access_token_expires =1000L * 60 * 60 * 24 * 7;
+    //1분
+    private static long access_token_expires =1000L * 60;
 
     public static String createJwt(String email, String secretKey){
         Claims claims = Jwts.claims();
@@ -57,7 +58,7 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + access_token_expires))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
                 .compact();
     }
 }

@@ -1,7 +1,8 @@
-package spring.server.controller;
+package spring.server.dto.feed;
 
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 import spring.server.entity.Image;
 import spring.server.entity.User;
 
@@ -13,7 +14,7 @@ public class FeedPostRequest {
 
     private String content;
 
-    private List<Image> imageList = new ArrayList<>();
+    private List<MultipartFile> imageList = new ArrayList<>();
 
     private String title;
 
