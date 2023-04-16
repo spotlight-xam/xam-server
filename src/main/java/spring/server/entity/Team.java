@@ -15,8 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Team {
 
-    private String master;
-
     @Id @GeneratedValue
     @Column(name = "team_id")
     private Long id;
@@ -26,10 +24,13 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<User> userList = new ArrayList<>();
 
+    private Long teamLeaderId;
 
+    public Team(String teamName) {
+        this.teamName = teamName;
+    }
 
-
-
-
-
+    @ManyToOne
+    @JoinColumn(name = "teamList")
+    private TeamUser teamUser;
 }

@@ -101,9 +101,11 @@ public class UserAuthService {
                         //패스워드 encoder 넣어야됨
                         .password(encoder.encode(request.getPassword()))
                         .emailAuth(false)
+                        .username("hello")
                         .build());
 
         log.info("user  생성 완료");
+        log.info("username={}", user.getUsername());
 
         HashMap<String, String> emailValues = new HashMap<>();
         emailValues.put("email", user.getEmail());

@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class FeedPostResponse {
 
-    private Long postId;
+    private Long feedId;
 
 }

@@ -72,14 +72,16 @@ public class S3UploadService {
 
         //convertFile.createNeFile 확인해서 같은 이름의 파일이 기존에 있는지 없는지 확인해야함
 
+        if(convertFile.createNewFile()){
+            log.info("convertFile.createNewFile 실행");
+            try(FileOutputStream fileOutputStream = new FileOutputStream(convertFile)){
+                fileOutputStream.write(multipartFile.getBytes());
+            }
+            return Optional.of(convertFile);
 
-        log.info("convertFile.createNewFile 실행");
-        try(FileOutputStream fileOutputStream = new FileOutputStream(convertFile)){
-            fileOutputStream.write(multipartFile.getBytes());
         }
-        return Optional.of(convertFile);
 
-
+        return Optional.empty();
     }
 
 }
