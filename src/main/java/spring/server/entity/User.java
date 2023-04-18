@@ -35,9 +35,14 @@ public class User {
     @OneToMany(mappedBy = "writer")
     private List<Feed> feedList = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "userList")
-    private TeamUser userTeam;
+    @OneToMany(mappedBy = "user")
+    private List<TeamUser> teamUsers;
+
+    @OneToMany(mappedBy = "user")
+    private List<RoomUser> roomUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Chat> chats = new ArrayList<>();
 
     @Builder
     public User(String email, String username, String password, String refreshToken, Boolean emailAuth) {

@@ -15,6 +15,7 @@ public enum ErrorCode {
     EmailIsAlreadyExisted(500, "E002", "이메일이 이미 있습니다"),
     FeedNotExist(500, "F002", "피드가 존재하지 않습니다"),
     TeamNotExistException(500, "T001", "팀이 존재하지 않습니다"),
+    RoomNotExistException(500, "R001", "채팅방이 존재하지 않습니다")
     ;
 
     private final int status;

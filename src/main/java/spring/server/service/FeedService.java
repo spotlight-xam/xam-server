@@ -39,6 +39,8 @@ public class FeedService {
     @Transactional
     public FeedPostResponse upload(FeedPostRequest request){
 
+        log.info("피드 서비스 upload 실행");
+
 //        final String name = authentication.getName();
 //        final User writer = userRepository.findByUsername(name)
 //                .orElseThrow(RuntimeException::new);
@@ -47,7 +49,6 @@ public class FeedService {
 //
 //        final User writer = userRepository.findById(loginUserId)
 //                .orElseThrow(UserNotFoundException::new);
-
 
         //추후에 리팩토링 필요할 듯
         final List<String> imagesUrl = request.getImageList().stream()
@@ -72,7 +73,6 @@ public class FeedService {
         Feed feed = Feed.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
-//                .writer(writer)
                 .images(imageList)
                 .build();
 
@@ -83,9 +83,6 @@ public class FeedService {
 
 
         feedRepository.save(feed);
-
-
-
 
         return new FeedPostResponse(feed.getId());
 

@@ -21,16 +21,12 @@ public class Team {
 
     private String teamName;
 
-    @OneToMany(mappedBy = "team")
-    private List<User> userList = new ArrayList<>();
-
     private Long teamLeaderId;
 
     public Team(String teamName) {
         this.teamName = teamName;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "teamList")
-    private TeamUser teamUser;
+    @OneToMany(mappedBy = "team")
+    private List<TeamUser> teamUsers = new ArrayList<>();
 }

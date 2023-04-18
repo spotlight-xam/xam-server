@@ -15,11 +15,13 @@ public class TeamUser {
     @Id @GeneratedValue
     private Long teamUserId;
 
-    @OneToMany(mappedBy = "teamUser")
-    private List<User> userList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany(mappedBy = "teamUser")
-    private List<Team> teamList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
 
 }

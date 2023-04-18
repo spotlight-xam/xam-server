@@ -3,10 +3,7 @@ package spring.server.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import spring.server.dto.team.AddUserRequest;
-import spring.server.dto.team.CreateTeamRequest;
-import spring.server.dto.team.CreateTeamResponse;
-import spring.server.dto.team.MyTeamResponse;
+import spring.server.dto.team.*;
 import spring.server.entity.Team;
 import spring.server.entity.TeamUser;
 import spring.server.entity.User;
@@ -46,15 +43,14 @@ public class TeamService {
         Team team = teamRepository.findById(addUserRequest.getTeamId())
                 .orElseThrow(TeamNotExistException::new);
 
-        addUserRequest.getUserList().stream()
-                .collect();
+//        addUserRequest.getUserList().stream()
+//                .collect();
     }
 
     @Transactional
     public void removeTeam(Long teamId){
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(TeamNotExistException::new);
-
         teamRepository.delete(team);
     }
 
@@ -63,40 +59,40 @@ public class TeamService {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(TeamNotExistException::new);
 
-        TeamUser teamUser = team.getTeamUser();
 
-        List<User> userList = teamUser.getUserList();
-        Iterator<User> iterator= userList.iterator();
-        while (iterator.hasNext()) {
-            User user = iterator.next();
-            if (user.getId() == userId) {
-                iterator.remove();
-            }
-        }
+
+//        List<User> userList = teamUser.getUserList();
+//        Iterator<User> iterator= userList.iterator();
+//        while (iterator.hasNext()) {
+//            User user = iterator.next();
+//            if (user.getId() == userId) {
+//                iterator.remove();
+//            }
+//        }
     }
     @Transactional
     public MyTeamResponse findTeamList(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
-
-        TeamUser teamUser = user.getTeamUser();
-
-        List<Team> teamList = teamUser.getTeamList();
+//
+//        TeamUser teamUser = user.getUserTeam();
+//
+//        List<Team> teamList = teamUser.getTeamList();
 
         MyTeamResponse myTeamResponse = new MyTeamResponse();
-        myTeamResponse.setMyTeamList(teamList);
+//        myTeamResponse.setMyTeamList(teamList);
 
         return myTeamResponse;
     }
 
     public TeamInfoResponse getTeamInfo(Long teamId) {
         Team team = teamRepository.findById(teamId)
-                .orElseThrow(TeamNotFoundException::new);
+                .orElseThrow(TeamNotExistException::new);
 
-        List<User> userList = team.getTeamUser().getUserList();
+//        List<User> userList = team.getTeamUser().getUserList();
 
         TeamInfoResponse teamInfoResponse = new TeamInfoResponse();
-        teamInfoResponse.setUserList(userList);
+//        teamInfoResponse.setUserList(userList);
 
 
 
