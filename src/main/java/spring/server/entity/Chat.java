@@ -1,14 +1,10 @@
 package spring.server.entity;
 
 import javax.persistence.*;
-
-
-
 @Entity
 public class Chat {
     @Id @GeneratedValue
     private Long chatId;
-
     @ManyToOne
     @JoinColumn(name = "rood_id")
     private Room room;

@@ -24,8 +24,6 @@ public class SecurityConfig {
     @Value("jwt.secret")
     private String secretKey;
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -38,6 +36,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .antMatchers("/signup", "/login").permitAll()
                 .and().build();
+    }
+
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity.headers().frameOptions().sameOrigin();
     }
 
 

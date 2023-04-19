@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -23,9 +24,9 @@ import java.io.IOException;
 public class ChatService {
 
     private final ObjectMapper mapper;
-
     private final ChatRepository chatRepository;
     private final RoomRepository roomRepository;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public Room findRoomById(Long roomId){
         Room room = roomRepository.findById(roomId)
@@ -39,7 +40,6 @@ public class ChatService {
         Room room = new Room(createRoomRequest.getRoomName());
 
         roomRepository.save(room);
-
         CreateRoomResponse createRoomResponse = new CreateRoomResponse();
         createRoomResponse.setRoomId(room.getRoomId());
 
@@ -55,5 +55,12 @@ public class ChatService {
         }
     }
 
+    public void enterRoom(ChatDto message) {
+        message.setMessage(message.getSender() + "님이 채팅방에 참여하였습니다.");
+        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+    }
 
+    public void sendMessage(ChatDto message) {
+        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+    }
 }
