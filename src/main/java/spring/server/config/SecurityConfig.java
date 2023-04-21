@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .and()
 //                .addFilterBefore(new JwtFilter(userAuthService, secretKey), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
-                .antMatchers("/signup", "/login").permitAll()
+                .antMatchers("/signup", "/login", "/**").permitAll()
                 .and().build();
     }
 

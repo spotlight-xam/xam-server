@@ -42,6 +42,7 @@ application.properties
 # IntelliJ project files
 .idea
 *.iml
+**/application.properties
 out
 gen
 ### Example user template template
