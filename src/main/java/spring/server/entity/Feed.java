@@ -1,7 +1,6 @@
 package spring.server.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,8 +21,8 @@ public class Feed {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User writer;
+    @JoinColumn(name = "member_id")
+    private Member writer;
 
     @OneToMany(mappedBy = "feed")
     @JsonIgnore
@@ -34,7 +33,7 @@ public class Feed {
     private String comment;
 
     @Builder
-    public Feed(String title, User writer, String content, List<Image> images) {
+    public Feed(String title, Member writer, String content, List<Image> images) {
         this.title = title;
         this.writer = writer;
         this.content = content;

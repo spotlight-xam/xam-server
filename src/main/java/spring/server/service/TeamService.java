@@ -5,17 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import spring.server.dto.team.*;
 import spring.server.entity.Team;
-import spring.server.entity.TeamUser;
-import spring.server.entity.User;
+import spring.server.entity.Member;
 import spring.server.repository.TeamRepository;
-import spring.server.repository.UserRepository;
+import spring.server.repository.MemberRepository;
 import spring.server.result.error.exception.TeamNotExistException;
 import spring.server.result.error.exception.UserNotFoundException;
 
 import javax.transaction.Transactional;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -23,7 +19,7 @@ import java.util.Optional;
 public class TeamService {
 
     private TeamRepository teamRepository;
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
     public CreateTeamResponse createTeam(CreateTeamRequest createTeamRequest) {
 
@@ -72,7 +68,7 @@ public class TeamService {
     }
     @Transactional
     public MyTeamResponse findTeamList(Long userId) {
-        User user = userRepository.findById(userId)
+        Member member = memberRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 //
 //        TeamUser teamUser = user.getUserTeam();

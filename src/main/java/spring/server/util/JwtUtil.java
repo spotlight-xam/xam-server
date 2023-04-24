@@ -3,15 +3,11 @@ package spring.server.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import spring.server.entity.User;
-import spring.server.repository.UserRepository;
-import spring.server.result.error.exception.UserDoesNotExistException;
+import spring.server.repository.MemberRepository;
 
 import java.util.Date;
 
@@ -20,7 +16,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     public static String getUserName(String token, String secretKey){
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
@@ -33,10 +29,10 @@ public class JwtUtil {
                 .getBody().getExpiration().before(new Date());
     }
 
-    public Long getLoginUserId() {
+    public String getLoginUserName() {
         try {
-            final String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-            return Long.valueOf(memberId);
+            final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            return username;
         } catch (Exception e) {
             throw new RuntimeException();
         }

@@ -4,20 +4,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @Entity
 @Getter
-public class TeamUser {
+public class TeamMember {
 
     @Id @GeneratedValue
-    private Long teamUserId;
+    private Long teamMemberId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "team_id")

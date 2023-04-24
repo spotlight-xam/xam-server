@@ -1,7 +1,7 @@
 package spring.server.dto.team;
 
 import lombok.Data;
-import spring.server.entity.User;
+import spring.server.entity.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class AddUserRequest {
 
     private Long teamId;
 
-    private List<User> userList = new ArrayList<>();
+    private List<Member> memberList = new ArrayList<>();
 
 
 }

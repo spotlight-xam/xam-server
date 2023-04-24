@@ -8,18 +8,16 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "MY_USER")
-public class User {
+public class Member {
 
     @Id @GeneratedValue
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String email;
@@ -35,17 +33,17 @@ public class User {
     @OneToMany(mappedBy = "writer")
     private List<Feed> feedList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<TeamUser> teamUsers;
+    @OneToMany(mappedBy = "member")
+    private List<TeamMember> teamMembers;
 
-    @OneToMany(mappedBy = "user")
-    private List<RoomUser> roomUsers = new ArrayList<>();
+    @OneToMany(mappedBy = "member")
+    private List<RoomMember> roomMembers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member")
     private List<Chat> chats = new ArrayList<>();
 
     @Builder
-    public User(String email, String username, String password, String refreshToken, Boolean emailAuth) {
+    public Member(String email, String username, String password, String refreshToken, Boolean emailAuth) {
         this.email = email;
         this.username = username;
         this.password = password;
@@ -53,7 +51,7 @@ public class User {
         this.emailAuth = emailAuth;
     }
 
-    public User(String email, String username, String password) {
+    public Member(String email, String username, String password) {
         this.email = email;
         this.username = username;
         this.password = password;

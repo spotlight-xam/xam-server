@@ -28,5 +28,5 @@ public class Team {
     }
 
     @OneToMany(mappedBy = "team")
-    private List<TeamUser> teamUsers = new ArrayList<>();
+    private List<TeamMember> teamMembers = new ArrayList<>();
 }

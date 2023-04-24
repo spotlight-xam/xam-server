@@ -25,8 +25,6 @@ import java.util.List;
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter {
 
-
-
     private final UserAuthService userAuthService;
 
     private final String secretKey;

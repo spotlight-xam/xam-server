@@ -41,7 +41,7 @@ public class ChatService {
 
         roomRepository.save(room);
         CreateRoomResponse createRoomResponse = new CreateRoomResponse();
-        createRoomResponse.setRoomId(room.getRoomId());
+        createRoomResponse.setRoomId(room.getId());
 
         return createRoomResponse;
     }
