@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -29,6 +30,8 @@ public class Member {
     private String refreshToken;
 
     private Boolean emailAuth;
+
+    private String roles;
 
     @OneToMany(mappedBy = "writer")
     private List<Feed> feedList = new ArrayList<>();
@@ -55,6 +58,13 @@ public class Member {
         this.email = email;
         this.username = username;
         this.password = password;
+    }
+
+    public List<String> getRoleList(){
+//        if(this.roles.length() > 0){
+//            return Arrays.asList(this.roles.split(","));
+//        }
+        return new ArrayList<>();
     }
 
     public void emailVerifiedSuccess() {

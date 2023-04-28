@@ -3,6 +3,7 @@ package spring.server.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import spring.server.dto.login.EmailAuthRequest;
@@ -36,13 +37,10 @@ public class UserAuthService {
     private final EmailService emailService;
     private final BCryptPasswordEncoder encoder;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
-
-    public String login(UserLoginRequest userLoginRequest){
+    public void login (UserLoginRequest userLoginRequest){
 
         //유저 업승ㅁ
-        Member member = memberRepository.findByEmail(userLoginRequest.getEmail())
+        Member member = memberRepository.findByUsername(userLoginRequest.getUsername())
                 .orElseThrow(EmailIsAlreadyExisted::new);
 
         log.info("request={}, user pw={}", userLoginRequest.getPassword(), member.getPassword());
@@ -53,9 +51,6 @@ public class UserAuthService {
             throw new RuntimeException();
             //다른 Exception 던질거임
         }
-
-        return JwtUtil.createJwt(userLoginRequest.getEmail(), secretKey);
-
 
     }
 
@@ -99,7 +94,7 @@ public class UserAuthService {
                         //패스워드 encoder 넣어야됨
                         .password(encoder.encode(request.getPassword()))
                         .emailAuth(false)
-                        .username("hello")
+                        .username(request.getUsername())
                         .build());
 
         log.info("user  생성 완료");

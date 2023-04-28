@@ -32,9 +32,9 @@ public class FeedService {
 
         log.info("피드 서비스 upload 실행");
 
-        String loginUserName = jwtUtil.getLoginUserName();
+//        String loginUserName = jwtUtil.getLoginUserName();
 
-        log.info("loginUserName={}", loginUserName);
+//        log.info("loginUserName={}", loginUserName);
 
         //추후에 리팩토링 필요할 듯
 //        final List<String> imagesUrl = request.getImageList().stream()

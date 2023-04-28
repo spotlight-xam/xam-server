@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import spring.server.config.security.PrincipalDetails;
 import spring.server.entity.Member;
 import spring.server.repository.MemberRepository;
 import spring.server.result.error.exception.UserNotFoundException;
@@ -27,10 +28,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername 실행");
-        return memberRepository.findByUsername(username)
-                .map(this::createUserDetails)
-                .orElseThrow(UserNotFoundException::new);
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);;
 
+        // session.setAttribute("loginUser", user);
+        return new PrincipalDetails(member);
     }
 
     private UserDetails createUserDetails(Member member) {

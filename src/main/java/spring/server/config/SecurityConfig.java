@@ -23,8 +23,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import spring.server.config.security.filter.JwtAuthenticationFilter;
-import spring.server.config.security.provider.CustomAuthenticationProvider;
+//import spring.server.config.security.provider.CustomAuthenticationProvider;
+import spring.server.config.security.filter.JwtAuthorizationFilter;
+import spring.server.repository.MemberRepository;
 import spring.server.service.UserAuthService;
+import spring.server.util.JwtUtil;
 
 @Configuration
 @EnableWebSecurity
@@ -33,8 +36,10 @@ public class SecurityConfig  {
 
     private final UserAuthService userAuthService;
     private final UserDetailsService userDetailsService;
-    private final CustomAuthenticationProvider customAuthenticationProvider;
+//    private final CustomAuthenticationProvider customAuthenticationProvider;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JwtUtil jwtUtil;
+    private final MemberRepository memberRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -43,18 +48,13 @@ public class SecurityConfig  {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-
-
-    @Value("jwt.secret")
-    private String secretKey;
-
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 
         //권한을 유저로 넣어줌
         authenticationManagerBuilder.userDetailsService(userDetailsService);
 
         //Provider 추가
-        authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider);
+//        authenticationManagerBuilder.authenticationProvider(customAuthenticationProvider);
 
 
     }
@@ -88,13 +88,17 @@ public class SecurityConfig  {
     }
 
     public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
+
         @Override
         public void configure(HttpSecurity http) throws Exception {
+
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager));
+                    .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtUtil))
+                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
         }
     }
+
 
 
 }

@@ -53,14 +53,16 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
 
-        String username=JwtUtil.getUserName(token,secretKey);
-        log.info("111111111username={}", username);
+//        String username=jwtUtil.getUserName(token);
+//        log.info("111111111username={}", username);
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(username, null, List.of(new SimpleGrantedAuthority("USER")));
+//        UsernamePasswordAuthenticationToken authenticationToken =
+//                new UsernamePasswordAuthenticationToken(username, null, List.of(new SimpleGrantedAuthority("USER")));
+//
+//        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//        filterChain.doFilter(request, response);
 
-        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-        filterChain.doFilter(request, response);
+
     }
 }

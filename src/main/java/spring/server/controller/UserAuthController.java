@@ -39,9 +39,9 @@ public class UserAuthController {
     public ResponseEntity<String> login(@RequestBody UserLoginRequest userLoginRequest) {
 
         log.info("서비스 시작");
-        final String login = userAuthService.login(userLoginRequest);
+        userAuthService.login(userLoginRequest);
         log.info("서비스 끝");
-        return ResponseEntity.ok().body(login);
+        return ResponseEntity.ok().body("로그인 완료");
     }
 
     @GetMapping("/confirm-email")
