@@ -26,7 +26,7 @@ public class ChatService {
     private final ObjectMapper mapper;
     private final ChatRepository chatRepository;
     private final RoomRepository roomRepository;
-    private final SimpMessagingTemplate simpMessagingTemplate;
+//    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public Room findRoomById(Long roomId){
         Room room = roomRepository.findById(roomId)
@@ -55,12 +55,12 @@ public class ChatService {
         }
     }
 
-    public void enterRoom(ChatDto message) {
-        message.setMessage(message.getSender() + "님이 채팅방에 참여하였습니다.");
-        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-    }
-
-    public void sendMessage(ChatDto message) {
-        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-    }
+//    public void enterRoom(ChatDto message) {
+//        message.setMessage(message.getSender() + "님이 채팅방에 참여하였습니다.");
+//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//    }
+//
+//    public void sendMessage(ChatDto message) {
+//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//    }
 }

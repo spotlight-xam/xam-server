@@ -23,22 +23,22 @@ public class RoomController {
     private final RoomRepository roomRepository;
 
 
-//    @GetMapping("/rooms")
-//    public ResponseEntity<RoomlistResponse> findAllRoom() {
-//        log.info("findAllRoom Controller 실행");
-//        return ResponseEntity.ok().body(roomService.findAllRoom());
-//    }
-
-    @GetMapping(value = "/rooms")
-    public ModelAndView rooms(){
-
-        log.info("# All Chat Rooms");
-        ModelAndView mv = new ModelAndView("chat/rooms");
-
-        mv.addObject("list", roomRepository.findAll());
-
-        return mv;
+    @GetMapping("/rooms")
+    public ResponseEntity<RoomlistResponse> findAllRoom() {
+        log.info("findAllRoom Controller 실행");
+        return ResponseEntity.ok().body(roomService.findAllRoom());
     }
+
+//    @GetMapping(value = "/rooms")
+//    public ModelAndView rooms(){
+//
+//        log.info("# All Chat Rooms");
+//        ModelAndView mv = new ModelAndView("chat/rooms");
+//
+//        mv.addObject("list", roomRepository.findAll());
+//
+//        return mv;
+//    }
 
     //채팅방 개설
     @PostMapping(value = "/room")

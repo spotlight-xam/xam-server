@@ -3,6 +3,8 @@ package spring.server.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,15 +25,18 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @PostMapping("/enter")
-    public void enterRoom(ChatDto chatDto) {
-        chatService.enterRoom(chatDto);
-    }
-
-    @PostMapping("/message")
-    public void sendMessage(ChatDto chatDto) {
-        chatService.sendMessage(chatDto);
-    }
+//    private final SimpMessagingTemplate simpMessagingTemplate;
+//
+//    @MessageMapping(value = "enter")
+//    public void enter(ChatDto message){
+//        message.setMessage(message.getSender() + "님이 채팅방에 참여하였습니다.");
+//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//    }
+//
+//    @MessageMapping(value = "/message")
+//    public void message(ChatDto message){
+//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//    }
 
     @PostMapping("/createroom")
     public ResponseEntity<CreateRoomResponse> createRoom(CreateRoomRequest createRoomRequest){
