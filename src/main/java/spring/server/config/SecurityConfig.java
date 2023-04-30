@@ -76,10 +76,16 @@ public class SecurityConfig  {
                 .cors().and()
                 .apply(new MyCustomDsl())
                 .and()
+                .authorizeRequests(authroize -> authroize
+                        .antMatchers("/api/v1/user/**")
+                        .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+                        .antMatchers("/api/v1/admin/**")
+                        .access("hasRole('ROLE_ADMIN')")
+                        .antMatchers("/signup")
+                        .permitAll()
+                        .anyRequest().permitAll())
+                .build();
 //                .addFilterBefore(new JwtFilter(userAuthService, secretKey), UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests()
-                .antMatchers("/signup", "/login", "/**").permitAll()
-                .and().build();
     }
 
     protected void configure(HttpSecurity httpSecurity) throws Exception {
