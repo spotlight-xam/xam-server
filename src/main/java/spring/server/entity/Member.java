@@ -46,12 +46,13 @@ public class Member {
     private List<Chat> chats = new ArrayList<>();
 
     @Builder
-    public Member(String email, String username, String password, String refreshToken, Boolean emailAuth) {
+    public Member(String email, String username, String password, String refreshToken, Boolean emailAuth, String roles) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.refreshToken = refreshToken;
         this.emailAuth = emailAuth;
+        this.roles = roles;
     }
 
     public Member(String email, String username, String password) {
@@ -61,12 +62,11 @@ public class Member {
     }
 
     public List<String> getRoleList(){
-//        if(this.roles.length() > 0){
-//            return Arrays.asList(this.roles.split(","));
-//        }
+        if(this.roles.length() > 0){
+            return Arrays.asList(this.roles.split(","));
+        }
         return new ArrayList<>();
     }
-
     public void emailVerifiedSuccess() {
         this.emailAuth = true;
     }

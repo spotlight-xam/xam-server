@@ -46,7 +46,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        super.doFilterInternal(request, response, chain);
+
+        String secretkey = this.secretKey;
+
         log.info("JwtAuthorizationFilter실행");
 
         String authorization = request.getHeader("Authorization");
@@ -59,9 +61,15 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         String jwtToken = request.getHeader("Authorization").replace("Bearer ", "");
 
-        //SignatureAlgorithm.HS256으로 하면 require 메소드에 안들어간다.
-        //그래서 일단 HMAC512로 바꿔주고 JwtUtil에서 생성할 떄도 HMAC512롤 통해서 만들도록 변경해 주었다.
-        String username = JWT.require(Algorithm.HMAC256(secretKey)).build().verify(jwtToken)
+
+        /**
+         * HMAC256이 HS256과 대칭인듯 함
+         * secret을 위에서 value값으로 가져와 선언해준 secretKey를 써야 하지만
+         * (secretkey가 노출되면 안되기 때문)
+         * secretKey 값에 계속 null 값이 들어감. 이유를 모르겠음
+         * 임시 방편으로 secretKey 값을 보이게 넣어버림
+         */
+        String username = JWT.require(Algorithm.HMAC256("wontaekjwtsecretkey")).build().verify(jwtToken)
                 .getClaim("username").asString();
 
         //서명이 정상적으로 됨

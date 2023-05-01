@@ -95,6 +95,7 @@ public class UserAuthService {
                         .password(encoder.encode(request.getPassword()))
                         .emailAuth(false)
                         .username(request.getUsername())
+                        .roles("ROLE_USER")
                         .build());
 
         log.info("user  생성 완료");

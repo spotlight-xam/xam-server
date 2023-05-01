@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import spring.server.config.security.filter.JwtAuthenticationFilter;
 //import spring.server.config.security.provider.CustomAuthenticationProvider;
 import spring.server.config.security.filter.JwtAuthorizationFilter;
@@ -81,8 +82,6 @@ public class SecurityConfig  {
                         .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                         .antMatchers("/api/v1/admin/**")
                         .access("hasRole('ROLE_ADMIN')")
-                        .antMatchers("/signup")
-                        .permitAll()
                         .anyRequest().permitAll())
                 .build();
 //                .addFilterBefore(new JwtFilter(userAuthService, secretKey), UsernamePasswordAuthenticationFilter.class)
@@ -100,7 +99,7 @@ public class SecurityConfig  {
 
             AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
             http
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager, jwtUtil))
+                    .addFilterBefore(new JwtAuthenticationFilter(authenticationManager, jwtUtil), SecurityContextPersistenceFilter.class)
                     .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
         }
     }
