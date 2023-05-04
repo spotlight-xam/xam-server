@@ -7,6 +7,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring.server.dto.chat.CreateRoomResponse;
 import spring.server.dto.chat.RoomlistResponse;
 import spring.server.entity.Room;
+import spring.server.repository.MemberRepository;
 import spring.server.repository.RoomRepository;
 import spring.server.result.error.exception.RoomNotExistException;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final MemberRepository memberRepository;
 
     public void createRoom(String roomName, RedirectAttributes rttr) {
 
