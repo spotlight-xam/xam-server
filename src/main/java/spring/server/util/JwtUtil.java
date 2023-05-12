@@ -35,7 +35,7 @@ public class JwtUtil {
     }
 
     //1분
-    private static long access_token_expires =1000L * 60;
+    private static long access_token_expires =1000L * 60 * 50 * 60;
 
     public String createJwt(String username){
 

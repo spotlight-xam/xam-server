@@ -37,7 +37,7 @@ public class Member {
     private List<Feed> feedList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<TeamMember> teamMembers;
+    private List<TeamMember> teamMembers = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<RoomMember> roomMembers = new ArrayList<>();
@@ -69,5 +69,9 @@ public class Member {
     }
     public void emailVerifiedSuccess() {
         this.emailAuth = true;
+    }
+
+    public void addTeamMember(TeamMember teamMember) {
+        this.teamMembers.add(teamMember);
     }
 }

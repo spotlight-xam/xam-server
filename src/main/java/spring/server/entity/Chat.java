@@ -5,11 +5,11 @@ import javax.persistence.*;
 public class Chat {
     @Id @GeneratedValue
     private Long chatId;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
     private String message;// 메세지

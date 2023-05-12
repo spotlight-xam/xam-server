@@ -29,14 +29,19 @@ public class TeamController {
         return ResponseEntity.ok().body(teamService.getTeamInfo(teamId));
     }
 
-    @GetMapping("/{userId}/myTeam")
-    public ResponseEntity<MyTeamResponse> findTeamList(Long userId){
-        return ResponseEntity.ok().body(teamService.findTeamList(userId));
+    @PostMapping("/{teamId}/{memberId}")
+    public void addTeamMember(@PathVariable Long teamId, @PathVariable Long memberId) {
+        teamService.addTeamMember(teamId, memberId);
+    }
+
+    @GetMapping("/{memberId}/myTeam")
+    public ResponseEntity<MyTeamResponse> findTeamList(@PathVariable Long memberId){
+        return ResponseEntity.ok().body(teamService.findTeamList(memberId));
     }
 
     @DeleteMapping("/remove/{teamId}/{userId}")
     public void removeUser(@PathVariable Long teamId, @PathVariable Long userId){
-        teamService.removeUser(userId, teamId);
+        teamService.removeMember(userId, teamId);
     }
 
     @DeleteMapping("remove/{teamId}")

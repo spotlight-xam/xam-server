@@ -2,6 +2,7 @@ package spring.server.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,16 +13,12 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Team {
-
     @Id @GeneratedValue
     @Column(name = "team_id")
     private Long id;
 
     private String teamName;
-
-    private Long teamLeaderId;
 
     public Team(String teamName) {
         this.teamName = teamName;
@@ -29,4 +26,9 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<TeamMember> teamMembers = new ArrayList<>();
+
+    public void addTeamMember(TeamMember teamMember) {
+        this.teamMembers.add(teamMember);
+    }
+
 }

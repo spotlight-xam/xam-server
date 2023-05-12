@@ -13,13 +13,16 @@ public class TeamMember {
     @Id @GeneratedValue
     private Long teamMemberId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
-
+    public TeamMember(Member member, Team team) {
+        this.member = member;
+        this.team = team;
+    }
 }
