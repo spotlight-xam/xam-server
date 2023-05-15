@@ -27,6 +27,16 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                 .getBody().get("username", String.class);
     }
+    public Long getLoginMemberId() {
+
+        try {
+            final String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
+            log.info("SecurityContextHolder.getContext().getAuthentication().getName()={}", memberId);
+            return Long.valueOf(memberId);
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+    }
 
     public static boolean isExpired(String token, String secretKey){
 

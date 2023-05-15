@@ -60,7 +60,6 @@ public class TeamService {
 
         memberRepository.save(member);
         teamRepository.save(team);
-
     }
 
     @Transactional

@@ -32,7 +32,7 @@ public class FeedService {
 
         log.info("피드 서비스 upload 실행");
 
-//        String loginUserName = jwtUtil.getLoginUserName();
+        Long loginMemberId = jwtUtil.getLoginMemberId();
 
 //        log.info("loginUserName={}", loginUserName);
 
@@ -77,7 +77,7 @@ public class FeedService {
     @Transactional
     public void delete(Long feedId){
         Optional<Feed> feed = feedRepository.findById(feedId);
-//        Long loginUserId = jwtUtil.getLoginUserId();
+//        jwtUtil.getUserName()
 
 //        if(loginUserId.equals(feed.get))
 
