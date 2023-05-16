@@ -42,7 +42,7 @@ public class S3UploadService {
         final String uploadImageUrl = putS3(uploadFile, fileName);
 
         removeNewFile(uploadFile);
-
+        log.info("uploadImageUrl={}", uploadImageUrl);
         return uploadImageUrl;
     }
 

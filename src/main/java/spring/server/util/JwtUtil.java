@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import spring.server.entity.Member;
 import spring.server.repository.MemberRepository;
+import spring.server.result.error.exception.UserNotFoundException;
 
 import java.util.Date;
 
@@ -27,12 +29,14 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
                 .getBody().get("username", String.class);
     }
-    public Long getLoginMemberId() {
+    public Member getLoginMember() {
 
         try {
-            final String memberId = SecurityContextHolder.getContext().getAuthentication().getName();
-            log.info("SecurityContextHolder.getContext().getAuthentication().getName()={}", memberId);
-            return Long.valueOf(memberId);
+            final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            log.info("SecurityContextHolder.getContext().getAuthentication().getName()={}", username);
+            Member member = memberRepository.findByUsername(username)
+                    .orElseThrow(UserNotFoundException::new);
+            return member;
         } catch (Exception e) {
             throw new RuntimeException();
         }

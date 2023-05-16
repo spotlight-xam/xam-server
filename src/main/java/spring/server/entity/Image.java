@@ -23,7 +23,7 @@ public class Image {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    public Image(String imageUrl) {
+    public Image(String imageUrl, Feed feed) {
         this.imageUrl = imageUrl;
     }
 
