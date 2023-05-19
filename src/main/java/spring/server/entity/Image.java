@@ -25,6 +25,7 @@ public class Image {
 
     public Image(String imageUrl, Feed feed) {
         this.imageUrl = imageUrl;
+        this.feed = feed;
     }
 
     public void setFeed(Feed feed) {
