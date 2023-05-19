@@ -6,12 +6,15 @@ import org.springframework.stereotype.Service;
 import spring.server.dto.feed.FeedPostRequest;
 import spring.server.dto.feed.FeedPostResponse;
 import spring.server.dto.feed.FeedResponse;
+import spring.server.dto.image.ImageResponse;
 import spring.server.entity.Feed;
 import spring.server.entity.Image;
 import spring.server.entity.Member;
-import spring.server.repository.FeedRepository;
-import spring.server.repository.ImageRepository;
+import spring.server.repository.feed.FeedCustomRepositoryImpl;
+import spring.server.repository.feed.FeedRepository;
+import spring.server.repository.image.ImageRepository;
 import spring.server.repository.MemberRepository;
+import spring.server.repository.image.ImageRepositoryImpl;
 import spring.server.result.error.exception.FeedNotExist;
 import spring.server.util.JwtUtil;
 
@@ -32,6 +35,29 @@ public class FeedService {
     private final S3UploadService s3UploadService;
     private final MemberRepository memberRepository;
     private final ImageRepository imageRepository;
+    private final ImageRepositoryImpl imageRepositoryImpl;
+    private final FeedCustomRepositoryImpl feedCustomRepository;
+
+    @Transactional
+    public List<FeedResponse> findAll(){
+        List<Feed> allFeed = feedRepository.findAll();
+        List<FeedResponse> feedResponseList = new ArrayList<>();
+
+        for (Feed feed : allFeed) {
+            List<ImageResponse> imageByFeedId = imageRepositoryImpl.findImageByFeedId(feed.getId());
+
+            FeedResponse feedResponse = FeedResponse.builder()
+                    .title(feed.getTitle())
+                    .writer(feed.getWriter().getUsername())
+                    .images(imageByFeedId)
+                    .content(feed.getContent())
+                    .build();
+
+            feedResponseList.add(feedResponse);
+        }
+
+        return feedResponseList;
+    }
 
     @Transactional
     public FeedPostResponse upload(FeedPostRequest request){
@@ -70,6 +96,7 @@ public class FeedService {
         }
 
         for (Image image : imageList) {
+
             imageRepository.save(image);
         }
 
@@ -94,21 +121,20 @@ public class FeedService {
     }
 
     public FeedResponse getPost(Long feedId) {
-//        final User loginUser = jwtUtil.getLoginUser();
+        Member loginMember = jwtUtil.getLoginMember();
         log.info("getPost service 실행");
         final Feed feed = feedRepository.findById(feedId)
                 .orElseThrow(FeedNotExist::new);
         log.info("=============================");
 
-        List<Image> allImageJoinFeedById = imageRepository.findAllImageJoinFeedById(feed.getId());
+        List<ImageResponse> imageByFeedId = imageRepositoryImpl.findImageByFeedId(feedId);
 
-        final FeedResponse feedResponse = FeedResponse.builder()
+        return FeedResponse.builder()
+                .writer(loginMember.getUsername())
                 .title(feed.getTitle())
-                .writer(feed.getWriter().getUsername())
-                .images(allImageJoinFeedById)
+                .images(imageByFeedId)
                 .content(feed.getContent())
                 .build();
 
-        return feedResponse;
     }
 }

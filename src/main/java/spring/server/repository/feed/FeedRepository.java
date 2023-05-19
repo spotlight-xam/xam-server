@@ -1,4 +1,4 @@
-package spring.server.repository;
+package spring.server.repository.feed;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -7,9 +7,9 @@ import spring.server.entity.Feed;
 import spring.server.entity.Image;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface FeedRepository extends JpaRepository<Feed, Long> {
-
+public interface FeedRepository extends JpaRepository<Feed, Long> , FeedCustomRepository{
 
 
 }

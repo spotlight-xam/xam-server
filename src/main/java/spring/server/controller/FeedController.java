@@ -5,13 +5,15 @@ import static spring.server.result.ResultCode.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import spring.server.dto.feed.FeedPostRequest;
 import spring.server.dto.feed.FeedPostResponse;
 import spring.server.dto.feed.FeedResponse;
 import spring.server.result.ResultResponse;
 import spring.server.service.FeedService;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/feed")
@@ -20,6 +22,11 @@ import spring.server.service.FeedService;
 public class FeedController {
 
     private final FeedService feedService;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<FeedResponse>> findAll(){
+        return ResponseEntity.ok().body(feedService.findAll());
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<FeedPostResponse> upload(@ModelAttribute FeedPostRequest feedPostRequest){
@@ -30,13 +37,11 @@ public class FeedController {
     @DeleteMapping("/{feedId}")
     public ResponseEntity<ResultResponse> deleteFeed(@PathVariable Long feedId){
         feedService.delete(feedId);
-
         return ResponseEntity.ok(ResultResponse.of(DeleteFeedSuccess));
     }
 
     @GetMapping("/{feedId}")
     public ResponseEntity<FeedResponse> getPost(@PathVariable Long feedId){
-
         log.info("getPost 실행");
         return ResponseEntity.ok(feedService.getPost(feedId));
     }
