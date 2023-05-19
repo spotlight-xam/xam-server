@@ -33,7 +33,6 @@ public class Member {
     private Boolean emailAuth;
 
     private String roles;
-
     @OneToMany
     private List<Feed> feedList = new ArrayList<>();
 
