@@ -96,6 +96,7 @@ public class TeamService {
                 .orElseThrow(UserNotFoundException::new);
 
         List<TeamMember> teamMembers = member.getTeamMembers();
+        log.info("teamMebers={}", teamMembers);
 
         MyTeamResponse myTeamResponse = new MyTeamResponse();
 

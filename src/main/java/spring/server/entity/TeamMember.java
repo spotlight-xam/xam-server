@@ -1,5 +1,6 @@
 package spring.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,11 +14,13 @@ public class TeamMember {
     @Id @GeneratedValue
     private Long teamMemberId;
 
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 

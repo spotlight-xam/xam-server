@@ -1,6 +1,7 @@
 package spring.server.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Team {
         this.teamName = teamName;
     }
 
+    @JsonBackReference
     @OneToMany(mappedBy = "team")
     private List<TeamMember> teamMembers = new ArrayList<>();
 

@@ -9,5 +9,5 @@ import java.util.List;
 @Data
 public class MyTeamResponse {
 
-    private List<Team> myTeamList = new ArrayList<>();
+    public List<Team> myTeamList = new ArrayList<>();
 }
