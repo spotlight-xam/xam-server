@@ -32,6 +32,8 @@ public class Member {
 
     private Boolean emailAuth;
 
+    private Image profileImage;
+
     private String roles;
     @OneToMany
     private List<Feed> feedList = new ArrayList<>();

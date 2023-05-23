@@ -11,12 +11,16 @@ import org.springframework.web.socket.WebSocketSession;
 import spring.server.dto.chat.ChatDto;
 import spring.server.dto.chat.CreateRoomRequest;
 import spring.server.dto.chat.CreateRoomResponse;
+import spring.server.entity.Member;
 import spring.server.entity.Room;
 import spring.server.repository.ChatRepository;
+import spring.server.repository.MemberRepository;
 import spring.server.repository.RoomRepository;
 import spring.server.result.error.exception.RoomNotExistException;
+import spring.server.util.JwtUtil;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +30,8 @@ public class ChatService {
     private final ObjectMapper mapper;
     private final ChatRepository chatRepository;
     private final RoomRepository roomRepository;
+    private final MemberRepository memberRepository;
+    private final JwtUtil jwtUtil;
 //    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public Room findRoomById(Long roomId){
@@ -37,13 +43,21 @@ public class ChatService {
 
     public CreateRoomResponse createRoom(CreateRoomRequest createRoomRequest){
 
-        Room room = new Room(createRoomRequest.getRoomName());
+        final Member loginMember = jwtUtil.getLoginMember();
 
-        roomRepository.save(room);
-        CreateRoomResponse createRoomResponse = new CreateRoomResponse();
-        createRoomResponse.setRoomId(room.getId());
+        final List<String> usernames = createRoomRequest.getUsernames();
 
-        return createRoomResponse;
+        usernames.add(loginMember.getUsername());
+
+        memberRepository.findAllByUsernameIn(usernames);
+
+        final Room room;
+
+        final boolean status;
+
+
+
+
     }
 
     //메세지 보내는 기능

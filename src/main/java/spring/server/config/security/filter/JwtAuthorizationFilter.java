@@ -22,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 
@@ -69,8 +70,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
          * secretKey 값에 계속 null 값이 들어감. 이유를 모르겠음
          * 임시 방편으로 secretKey 값을 보이게 넣어버림
          */
-        String username = JWT.require(Algorithm.HMAC256("wontaekjwtsecretkey")).build().verify(jwtToken)
+        String username = JWT.require(Algorithm.HMAC256("wontaekjwtsecretkey".getBytes())).build().verify(jwtToken)
                 .getClaim("username").asString();
+
 
         //서명이 정상적으로 됨
         if (username != null) {
