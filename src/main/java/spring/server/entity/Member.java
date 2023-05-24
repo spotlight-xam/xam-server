@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import spring.server.entity.chat.Chat;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Member {
     private String refreshToken;
 
     private Boolean emailAuth;
-
+    @OneToOne
     private Image profileImage;
 
     private String roles;

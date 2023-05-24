@@ -1,8 +1,11 @@
 package spring.server.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class RoomMember {
 
     @Id @GeneratedValue

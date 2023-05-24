@@ -2,19 +2,15 @@ package spring.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import spring.server.dto.chat.ChatDto;
 import spring.server.dto.chat.CreateRoomRequest;
 import spring.server.dto.chat.CreateRoomResponse;
-import spring.server.dto.team.CreateTeamRequest;
-import spring.server.entity.Chat;
+import spring.server.dto.chat.MessageRequest;
 import spring.server.service.ChatService;
 
 @Controller
@@ -41,6 +37,16 @@ public class ChatController {
     @PostMapping("/createroom")
     public ResponseEntity<CreateRoomResponse> createRoom(CreateRoomRequest createRoomRequest){
         return ResponseEntity.ok().body(chatService.createRoom(createRoomRequest));
+    }
+
+    @MessageMapping("/messages")
+    public void sendMessage(MessageRequest messageRequest) {
+        chatService.sendMessage(messageRequest);
+    }
+
+    @GetMapping("/chat/rooms/{roomId}/messages")
+    public ResponseEntity<Page<ChatDto>> getChatRoomMessages(@PathVariable Long roomId, @RequestParam int page) {
+        return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
     }
 
     @GetMapping
