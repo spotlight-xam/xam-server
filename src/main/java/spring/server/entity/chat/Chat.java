@@ -1,6 +1,7 @@
 package spring.server.entity.chat;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import spring.server.entity.Member;
 import spring.server.entity.Room;
@@ -8,10 +9,11 @@ import spring.server.entity.Room;
 import javax.persistence.*;
 @Entity
 @DiscriminatorColumn
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Chat {
     @Id @GeneratedValue
-    private Long chatId;
+    private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
     private Room room;
@@ -19,8 +21,8 @@ public class Chat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-    private String message;// 메세지
     private String time; // 채팅 발송 시간
+    @Column(insertable = false, updatable = false)
     private String dtype;
 
     public Chat(Room room, Member member) {

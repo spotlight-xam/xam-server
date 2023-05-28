@@ -3,11 +3,13 @@ package spring.server.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import spring.server.dto.chat.ChatDto;
 import spring.server.dto.chat.MessageRequest;
 import spring.server.dto.chat.CreateRoomRequest;
 import spring.server.dto.chat.CreateRoomResponse;
@@ -15,18 +17,18 @@ import spring.server.dto.member.ChatRoomMemberInfo;
 import spring.server.entity.Member;
 import spring.server.entity.Room;
 import spring.server.entity.RoomMember;
+import spring.server.entity.chat.Chat;
+import spring.server.entity.chat.ChatImage;
 import spring.server.entity.chat.ChatText;
-import spring.server.repository.chat.ChatRepository;
+import spring.server.repository.chat.*;
 import spring.server.repository.MemberRepository;
-import spring.server.repository.RoomRepository;
-import spring.server.repository.chat.ChatTextRepository;
-import spring.server.repository.chat.RoomMemberRepository;
 import spring.server.result.error.exception.RoomNotExistException;
 import spring.server.result.error.exception.UserNotFoundException;
 import spring.server.util.JwtUtil;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +42,8 @@ public class ChatService {
     private final MemberRepository memberRepository;
     private final RoomMemberRepository roomMemberRepository;
     private final ChatTextRepository chatTextRepository;
+    private final ChatImageRepository chatImageRepository;
+
 
     private final JwtUtil jwtUtil;
     private final SimpMessagingTemplate simpMessagingTemplate;
@@ -63,7 +67,8 @@ public class ChatService {
 
         final Room room = new Room(createRoomRequest.getRoomName());
         roomRepository.save(room);
-        //roomMember를 저장하면서 room과 member에도 각각 업데이트쿼리를 날려야 함
+        //TODO
+        // roomMember를 저장하면서 room과 member에도 각각 업데이트쿼리를 날려야 함
 
         List<ChatRoomMemberInfo> memberInfos = members.stream()
                 .map(ChatRoomMemberInfo::new)
@@ -91,14 +96,53 @@ public class ChatService {
         roomMembers.forEach(r -> simpMessagingTemplate.convertAndSend("/sub/" + r.getMember().getUsername()));
     }
 
-    public Object getChatRoomMessages(Long roomId, int page) {
+    @Transactional
+    public Page<ChatDto> getChatRoomMessages(Long roomId, Integer page) {
+
+        page = (page == 0 ? 0 : page-1);
         Member loginMember = jwtUtil.getLoginMember();
 
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(RoomNotExistException::new);
 
+        final Pageable pageable = PageRequest.of(page, 10);
 
+        Page<Chat> chatsByRoomId = roomRepository.findChatsByRoomId(room.getId(), pageable);
 
+        List<ChatDto> chatDtos = convertChatToDto(chatsByRoomId.getContent());
+
+        return new PageImpl<>(chatDtos, pageable, chatsByRoomId.getTotalElements());
+    }
+
+    private List<ChatDto> convertChatToDto(List<Chat> chats) {
+
+        final List<Long> chatIds = getMessageIds(chats);
+
+        final Map<Long, ChatImage> chatImageMap = chatImageRepository.findAllByIdIn(chatIds)
+                .stream()
+                .collect(Collectors.toMap(Chat::getId, ci -> ci));
+        final Map<Long, ChatText> chatTextMap = chatTextRepository.findAllByIdIn(chatIds)
+                .stream()
+                .collect(Collectors.toMap(Chat::getId, ct -> ct));
+
+        return chats.stream()
+                .map(c -> {
+                    switch (c.getDtype()) {
+                        case "IMAGE":
+                            return new ChatDto(chatImageMap.get(c.getId()));
+                        case "TEXT":
+                            return new ChatDto(chatTextMap.get(c.getId()));
+                    }
+                    return null;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private static List<Long> getMessageIds(List<Chat> chats) {
+        final List<Long> messageIds = chats.stream()
+                .map(Chat::getId)
+                .collect(Collectors.toList());
+        return messageIds;
     }
 
 

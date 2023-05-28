@@ -11,6 +11,7 @@ import spring.server.dto.chat.ChatDto;
 import spring.server.dto.chat.CreateRoomRequest;
 import spring.server.dto.chat.CreateRoomResponse;
 import spring.server.dto.chat.MessageRequest;
+import spring.server.entity.chat.Chat;
 import spring.server.service.ChatService;
 
 @Controller
@@ -45,7 +46,7 @@ public class ChatController {
     }
 
     @GetMapping("/chat/rooms/{roomId}/messages")
-    public ResponseEntity<Page<ChatDto>> getChatRoomMessages(@PathVariable Long roomId, @RequestParam int page) {
+    public ResponseEntity<Page<ChatDto>> getChatRoomMessages(@PathVariable Long roomId, @RequestParam Integer page) {
         return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
     }
 

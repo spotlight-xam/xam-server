@@ -6,10 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import spring.server.dto.chat.RoomlistResponse;
-import spring.server.repository.RoomRepository;
+import spring.server.repository.chat.RoomRepository;
 import spring.server.service.RoomService;
 
 @Controller
