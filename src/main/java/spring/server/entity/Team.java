@@ -21,8 +21,16 @@ public class Team {
 
     private String teamName;
 
-    public Team(String teamName) {
+    @OneToOne
+    private Image profileImage;
+
+    @OneToMany
+    private List<Room> rooms = new ArrayList<>();
+
+    @Builder
+    public Team(String teamName, Image profileImage) {
         this.teamName = teamName;
+        this.profileImage = profileImage;
     }
 
     @JsonBackReference

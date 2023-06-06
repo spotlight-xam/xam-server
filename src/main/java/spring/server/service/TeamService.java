@@ -2,6 +2,10 @@ package spring.server.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import spring.server.dto.team.*;
 import spring.server.entity.Team;
@@ -12,8 +16,10 @@ import spring.server.repository.TeamRepository;
 import spring.server.repository.MemberRepository;
 import spring.server.result.error.exception.TeamNotExistException;
 import spring.server.result.error.exception.UserNotFoundException;
+import spring.server.util.JwtUtil;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,11 +31,15 @@ public class TeamService {
     private final MemberRepository memberRepository;
 
     private final TeamMemberRepository teamMemberRepository;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public CreateTeamResponse createTeam(CreateTeamRequest createTeamRequest) {
 
-        Team team = new Team("team1");
+        final Team team = Team.builder()
+                .teamName(createTeamRequest.getTeamName())
+                .profileImage(createTeamRequest.getProfileImage())
+                .build();
 
         log.info("=================teamName={}", team.getTeamName());
 
@@ -91,22 +101,24 @@ public class TeamService {
     }
 
     @Transactional
-    public MyTeamResponse findTeamList(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(UserNotFoundException::new);
+    public Page<MyTeamResponse> findTeamList(Integer page) {
 
-        List<TeamMember> teamMembers = member.getTeamMembers();
-        log.info("teamMebers={}", teamMembers);
+        final Member loginMember = jwtUtil.getLoginMember();
 
-        MyTeamResponse myTeamResponse = new MyTeamResponse();
+        page = (page == 0 ? 0 : page-1);
+        final Pageable pageable = PageRequest.of(page, 10);
 
-        List<Team> myTeamList = myTeamResponse.getMyTeamList();
+        List<TeamMember> teamMembers = loginMember.getTeamMembers();
+        List<MyTeamResponse> myTeamResponseList = new ArrayList<>();
 
         for (TeamMember teamMember : teamMembers) {
-            myTeamList.add(teamMember.getTeam());
+            MyTeamResponse myTeamResponse = new MyTeamResponse();
+            myTeamResponse.setTeamId(teamMember.getTeam().getId());
+            myTeamResponse.setProfileImage(teamMember.getTeam().getProfileImage());
+            myTeamResponseList.add(myTeamResponse);
         }
 
-        return myTeamResponse;
+        return new PageImpl<>(myTeamResponseList, pageable, myTeamResponseList.size());
     }
 
     public TeamInfoResponse getTeamInfo(Long teamId) {

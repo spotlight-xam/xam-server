@@ -2,15 +2,13 @@ package spring.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import spring.server.dto.chat.ChatDto;
-import spring.server.dto.chat.CreateRoomRequest;
-import spring.server.dto.chat.CreateRoomResponse;
-import spring.server.dto.chat.MessageRequest;
+import spring.server.dto.chat.*;
 import spring.server.entity.chat.Chat;
 import spring.server.service.ChatService;
 
@@ -35,20 +33,30 @@ public class ChatController {
 //        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
 //    }
 
+    //채팅방 생성
     @PostMapping("/createroom")
     public ResponseEntity<CreateRoomResponse> createRoom(CreateRoomRequest createRoomRequest){
         return ResponseEntity.ok().body(chatService.createRoom(createRoomRequest));
     }
 
+    //메시지 보내기
     @MessageMapping("/messages")
     public void sendMessage(MessageRequest messageRequest) {
         chatService.sendMessage(messageRequest);
     }
 
+    //채팅방 메시지 조회
     @GetMapping("/chat/rooms/{roomId}/messages")
     public ResponseEntity<Page<ChatDto>> getChatRoomMessages(@PathVariable Long roomId, @RequestParam Integer page) {
         return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
     }
+
+    @GetMapping("chat/rooms")
+    public ResponseEntity<Page<JoinRoomDto>> getJoinRooms(@RequestParam Integer page) {
+        return ResponseEntity.ok().body(chatService.getJoinRooms(page));
+    }
+
+
 
     @GetMapping
     public String chatGET(){

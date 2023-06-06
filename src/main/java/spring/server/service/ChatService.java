@@ -3,16 +3,10 @@ package spring.server.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import spring.server.dto.chat.ChatDto;
-import spring.server.dto.chat.MessageRequest;
-import spring.server.dto.chat.CreateRoomRequest;
-import spring.server.dto.chat.CreateRoomResponse;
+import spring.server.dto.chat.*;
 import spring.server.dto.member.ChatRoomMemberInfo;
 import spring.server.entity.Member;
 import spring.server.entity.Room;
@@ -143,6 +137,13 @@ public class ChatService {
                 .map(Chat::getId)
                 .collect(Collectors.toList());
         return messageIds;
+    }
+
+    public Page<JoinRoomDto> getJoinRooms(Integer page) {
+        final Member loginMember = jwtUtil.getLoginMember();
+        page = (page == 0 ? 0 : page - 1);
+
+        PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "id"));
     }
 
 

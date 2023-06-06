@@ -4,6 +4,7 @@ import groovy.util.logging.Slf4j;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import spring.server.dto.team.CreateTeamRequest;
@@ -39,9 +40,9 @@ public class TeamController {
     }
 
     //유저의 소속된 팀 찾기
-    @GetMapping("/{memberId}/myTeam")
-    public ResponseEntity<MyTeamResponse> findTeamList(@PathVariable Long memberId){
-        return ResponseEntity.ok().body(teamService.findTeamList(memberId));
+    @GetMapping("/myTeam")
+    public ResponseEntity<Page<MyTeamResponse>> findTeamList(@RequestParam Integer page){
+        return ResponseEntity.ok().body(teamService.findTeamList(page));
     }
 
     //팀의 소속 유저 제거
