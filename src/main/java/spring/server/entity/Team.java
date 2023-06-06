@@ -21,6 +21,9 @@ public class Team {
 
     private String teamName;
 
+    @OneToMany(mappedBy = "team")
+    private List<Room> roomList = new ArrayList<>();
+
     public Team(String teamName) {
         this.teamName = teamName;
     }

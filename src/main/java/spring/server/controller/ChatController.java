@@ -11,6 +11,7 @@ import spring.server.dto.chat.ChatDto;
 import spring.server.dto.chat.CreateRoomRequest;
 import spring.server.dto.chat.CreateRoomResponse;
 import spring.server.dto.chat.MessageRequest;
+import spring.server.entity.Room;
 import spring.server.entity.chat.Chat;
 import spring.server.service.ChatService;
 
@@ -35,27 +36,22 @@ public class ChatController {
 //        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
 //    }
 
+    //채팅방 만들기
     @PostMapping("/createroom")
     public ResponseEntity<CreateRoomResponse> createRoom(CreateRoomRequest createRoomRequest){
         return ResponseEntity.ok().body(chatService.createRoom(createRoomRequest));
     }
 
+    //채팅 메시지 보내기
     @MessageMapping("/messages")
     public void sendMessage(MessageRequest messageRequest) {
         chatService.sendMessage(messageRequest);
     }
 
+    //채팅방에 채팅 메시지 불러오기
     @GetMapping("/chat/rooms/{roomId}/messages")
     public ResponseEntity<Page<ChatDto>> getChatRoomMessages(@PathVariable Long roomId, @RequestParam Integer page) {
         return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
-    }
-
-    @GetMapping
-    public String chatGET(){
-
-        log.info("chat Cotroller 실행");
-
-        return "chat";
     }
 
 

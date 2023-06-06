@@ -17,6 +17,11 @@ public class Room {
     @Column(name = "room_id")
     private Long id;
     private String roomName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     @OneToMany(mappedBy = "room")
     private List<Chat> chats = new ArrayList<>();
     @OneToMany(mappedBy = "room")
@@ -25,5 +30,7 @@ public class Room {
         this.roomName = roomName;
     }
 
-
+    public void updateName(String newName) {
+        this.roomName = newName;
+    }
 }
