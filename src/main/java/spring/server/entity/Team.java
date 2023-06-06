@@ -15,6 +15,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Team {
+
+
     @Id @GeneratedValue
     @Column(name = "team_id")
     private Long id;
@@ -22,14 +24,10 @@ public class Team {
     private String teamName;
 
     @OneToMany(mappedBy = "team")
-    private List<Room> roomList = new ArrayList<>();
+    private List<Room> rooms = new ArrayList<>();
 
-    public Team(String teamName) {
     @OneToOne
     private Image profileImage;
-
-    @OneToMany
-    private List<Room> rooms = new ArrayList<>();
 
     @Builder
     public Team(String teamName, Image profileImage) {
@@ -44,5 +42,6 @@ public class Team {
     public void addTeamMember(TeamMember teamMember) {
         this.teamMembers.add(teamMember);
     }
-
 }
+
+

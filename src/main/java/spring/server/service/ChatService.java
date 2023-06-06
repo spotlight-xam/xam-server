@@ -44,7 +44,7 @@ public class ChatService {
     private final JwtUtil jwtUtil;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public Room findRoomById(Long roomId){
+    public Room findRoomById(Long roomId) {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(RoomNotExistException::new);
 
@@ -52,7 +52,7 @@ public class ChatService {
     }
 
     @Transactional
-    public CreateRoomResponse createRoom(CreateRoomRequest createRoomRequest){
+    public CreateRoomResponse createRoom(CreateRoomRequest createRoomRequest) {
 
         final Member loginMember = jwtUtil.getLoginMember();
         final List<String> usernames = createRoomRequest.getUsernames();
@@ -76,7 +76,7 @@ public class ChatService {
 
     //메세지 보내는 기능
     @Transactional
-    public void sendMessage(MessageRequest messageRequest){
+    public void sendMessage(MessageRequest messageRequest) {
         Member member = memberRepository.findById(messageRequest.getSenderId())
                 .orElseThrow(UserNotFoundException::new);
 
@@ -95,7 +95,7 @@ public class ChatService {
     @Transactional
     public Page<ChatDto> getChatRoomMessages(Long roomId, Integer page) {
 
-        page = (page == 0 ? 0 : page-1);
+        page = (page == 0 ? 0 : page - 1);
         Member loginMember = jwtUtil.getLoginMember();
 
         Room room = roomRepository.findById(roomId)
@@ -142,20 +142,5 @@ public class ChatService {
         return messageIds;
     }
 
-    public Page<JoinRoomDto> getJoinRooms(Integer page) {
-        final Member loginMember = jwtUtil.getLoginMember();
-        page = (page == 0 ? 0 : page - 1);
-
-        PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "id"));
-    }
-
-
-//    public void enterRoom(ChatDto message) {
-//        message.setMessage(message.getSender() + "님이 채팅방에 참여하였습니다.");
-//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-//    }
-//
-//    public void sendMessage(ChatDto message) {
-//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-//    }
 }
+

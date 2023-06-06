@@ -56,12 +56,5 @@ public class ChatController {
         return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
     }
 
-    @GetMapping("chat/rooms")
-    public ResponseEntity<Page<JoinRoomDto>> getJoinRooms(@RequestParam Integer page) {
-        return ResponseEntity.ok().body(chatService.getJoinRooms(page));
-    }
-
-
-
 
 }

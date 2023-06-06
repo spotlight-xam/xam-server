@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import spring.server.entity.QRoom;
+import spring.server.entity.QTeam;
 import spring.server.entity.Room;
 import spring.server.entity.chat.Chat;
 import spring.server.entity.chat.QChat;
@@ -46,8 +47,9 @@ public class RoomRepositoryImpl implements RoomCustomRepository {
     @Override
     public Page<Room> findByTeamId(Long teamId, Pageable pageable) {
         List<Room> rooms = jpaQueryFactory
-                .selectFrom(room)
-                .join(room.team, team)
+                .select(room)
+                .from(team)
+                .join(team.rooms, room)
                 .where(team.id.eq(teamId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
