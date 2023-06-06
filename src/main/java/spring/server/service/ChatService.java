@@ -16,6 +16,8 @@ import spring.server.entity.chat.ChatImage;
 import spring.server.entity.chat.ChatText;
 import spring.server.repository.chat.*;
 import spring.server.repository.MemberRepository;
+import spring.server.repository.room.RoomMemberRepository;
+import spring.server.repository.room.RoomRepository;
 import spring.server.result.error.exception.RoomNotExistException;
 import spring.server.result.error.exception.UserNotFoundException;
 import spring.server.util.JwtUtil;
@@ -101,6 +103,7 @@ public class ChatService {
 
         final Pageable pageable = PageRequest.of(page, 10);
 
+        // TODO : chat_id 넣어서 chat_id 기준으로 페이징해서 가져오게하기
         Page<Chat> chatsByRoomId = roomRepository.findChatsByRoomId(room.getId(), pageable);
 
         List<ChatDto> chatDtos = convertChatToDto(chatsByRoomId.getContent());

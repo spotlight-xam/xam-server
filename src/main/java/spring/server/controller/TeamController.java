@@ -11,6 +11,7 @@ import spring.server.dto.team.CreateTeamRequest;
 import spring.server.dto.team.CreateTeamResponse;
 import spring.server.dto.team.MyTeamResponse;
 import spring.server.dto.team.TeamInfoResponse;
+import spring.server.entity.Room;
 import spring.server.service.TeamService;
 
 @RestController
@@ -56,5 +57,6 @@ public class TeamController {
     public void removeTeam(@PathVariable Long teamId){
         teamService.removeTeam(teamId);
     }
+
 
 }

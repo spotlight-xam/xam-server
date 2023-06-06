@@ -14,6 +14,7 @@ import spring.server.entity.TeamMember;
 import spring.server.repository.TeamMemberRepository;
 import spring.server.repository.TeamRepository;
 import spring.server.repository.MemberRepository;
+import spring.server.repository.room.RoomRepository;
 import spring.server.result.error.exception.TeamNotExistException;
 import spring.server.result.error.exception.UserNotFoundException;
 import spring.server.util.JwtUtil;
@@ -29,9 +30,9 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
-
     private final TeamMemberRepository teamMemberRepository;
     private final JwtUtil jwtUtil;
+    private final RoomRepository roomRepository;
 
     @Transactional
     public CreateTeamResponse createTeam(CreateTeamRequest createTeamRequest) {

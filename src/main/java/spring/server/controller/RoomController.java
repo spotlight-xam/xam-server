@@ -2,19 +2,19 @@ package spring.server.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import spring.server.dto.chat.RoomlistResponse;
-import spring.server.repository.chat.RoomRepository;
+import spring.server.dto.room.RoomDto;
+import spring.server.repository.room.RoomRepository;
 import spring.server.service.RoomService;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/chat")
 public class RoomController {
 
     private final RoomService roomService;
@@ -22,35 +22,15 @@ public class RoomController {
     private final RoomRepository roomRepository;
 
 
-    @GetMapping("/rooms")
-    public ResponseEntity<RoomlistResponse> findAllRoom() {
-        log.info("findAllRoom Controller 실행");
-        return ResponseEntity.ok().body(roomService.findAllRoom());
+    //팀에 속해있는 ROOM 조회
+    @GetMapping("/{teamId}/rooms")
+    public ResponseEntity<Page<RoomDto>> getRooms(@PathVariable Long teamId, @RequestParam int page) {
+        return ResponseEntity.ok().body(roomService.getRooms(teamId, page));
     }
 
-//    @GetMapping(value = "/rooms")
-//    public ModelAndView rooms(){
-//
-//        log.info("# All Chat Rooms");
-//        ModelAndView mv = new ModelAndView("chat/rooms");
-//
-//        mv.addObject("list", roomRepository.findAll());
-//
-//        return mv;
-//    }
-
-    //채팅방 개설
-    @PostMapping(value = "/room")
-    public String create(@RequestParam String roomName, RedirectAttributes rttr){
-        log.info("# Create Chat Room , name: " + roomName);
-        roomService.createRoom(roomName,rttr);
-        return "redirect:/chat/rooms";
-    }
-
-    //채팅방 조회
-    @GetMapping("/room")
-    public void getRoom(Long roomId, Model model){
-        log.info("# get Chat Room, roomID : " + roomId);
-        model.addAttribute("room", roomService.getRoom(roomId));
+    //채팅방 이름 변경
+    @PostMapping("/{roomId}/rename")
+    public void updateName(@PathVariable Long roomId, @RequestBody String name) {
+        roomService.updateName(roomId, name);
     }
 }
