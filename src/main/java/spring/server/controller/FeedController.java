@@ -23,23 +23,27 @@ public class FeedController {
 
     private final FeedService feedService;
 
+    //전체 피드 조회
     @GetMapping("/all")
     public ResponseEntity<List<FeedResponse>> findAll(){
         return ResponseEntity.ok().body(feedService.findAll());
     }
 
+    //피드 업로드
     @PostMapping("/upload")
     public ResponseEntity<FeedPostResponse> upload(@ModelAttribute FeedPostRequest feedPostRequest){
         log.info("upload controller 실행");
         return ResponseEntity.ok().body(feedService.upload(feedPostRequest));
     }
 
+    //피드 삭제
     @DeleteMapping("/{feedId}")
     public ResponseEntity<ResultResponse> deleteFeed(@PathVariable Long feedId){
         feedService.delete(feedId);
         return ResponseEntity.ok(ResultResponse.of(DeleteFeedSuccess));
     }
 
+    //피드 단건 조회
     @GetMapping("/{feedId}")
     public ResponseEntity<FeedResponse> getPost(@PathVariable Long feedId){
         log.info("getPost 실행");

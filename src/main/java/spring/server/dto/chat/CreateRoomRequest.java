@@ -10,6 +10,4 @@ public class CreateRoomRequest {
 
     private String roomName;
 
-    private List<String> usernames = new ArrayList<>();
-
 }

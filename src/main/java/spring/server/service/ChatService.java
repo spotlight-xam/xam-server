@@ -31,7 +31,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class ChatService {
-
     private final ObjectMapper mapper;
     private final ChatRepository chatRepository;
     private final RoomRepository roomRepository;
@@ -51,29 +50,6 @@ public class ChatService {
         return room;
     }
 
-    @Transactional
-    public CreateRoomResponse createRoom(CreateRoomRequest createRoomRequest) {
-
-        final Member loginMember = jwtUtil.getLoginMember();
-        final List<String> usernames = createRoomRequest.getUsernames();
-
-        usernames.add(loginMember.getUsername());
-
-        List<Member> members = memberRepository.findAllByUsernameIn(usernames);
-
-        final Room room = new Room(createRoomRequest.getRoomName());
-        roomRepository.save(room);
-        //TODO
-        // roomMember를 저장하면서 room과 member에도 각각 업데이트쿼리를 날려야 함
-
-        List<ChatRoomMemberInfo> memberInfos = members.stream()
-                .map(ChatRoomMemberInfo::new)
-                .collect(Collectors.toList());
-
-        return new CreateRoomResponse(room.getId(), new ChatRoomMemberInfo(loginMember), memberInfos);
-
-    }
-
     //메세지 보내는 기능
     @Transactional
     public void sendMessage(MessageRequest messageRequest) {
@@ -89,6 +65,9 @@ public class ChatService {
         chatText.setDtype();
         chatRepository.save(chatText);
 
+        /**
+         * 해당 멤버의 사용자 이름을 이용하여 /sub/ 뒤에 붙은 주소로 메시지를 보내는 역할을 합니다.
+         */
         roomMembers.forEach(r -> simpMessagingTemplate.convertAndSend("/sub/" + r.getMember().getUsername()));
     }
 

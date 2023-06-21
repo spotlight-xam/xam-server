@@ -25,6 +25,7 @@ public class UserAuthController {
 
     private final UserAuthService userAuthService;
 
+    //로그아웃
     @GetMapping("logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -32,9 +33,9 @@ public class UserAuthController {
         if (authentication != null) {
             new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
-
     }
 
+    //로그인
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserLoginRequest userLoginRequest) {
 
@@ -44,6 +45,7 @@ public class UserAuthController {
         return ResponseEntity.ok().body("로그인 완료");
     }
 
+    //이메일 인증
     @GetMapping("/confirm-email")
     public ResponseEntity<String> confirmEmail(@ModelAttribute EmailAuthRequest emailAuthRequest){
         log.info("컨펌이메일");
@@ -51,6 +53,7 @@ public class UserAuthController {
         return ResponseEntity.ok().body("인증 완료");
     }
 
+    //회원가입
     @PostMapping("/signup")
     public ResponseEntity<UserSignUpResponse> signup(@RequestBody UserSignupRequest userSignupRequest) throws MessagingException {
         log.info("signup controller 실행");

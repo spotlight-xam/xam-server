@@ -11,14 +11,8 @@ import java.util.List;
 public class CreateRoomResponse {
 
     private Long roomId;
-
-    private ChatRoomMemberInfo inviter;
-
-    private List<ChatRoomMemberInfo> members = new ArrayList<>();
-
-    public CreateRoomResponse(Long roomId, ChatRoomMemberInfo inviter, List<ChatRoomMemberInfo> members) {
+    private String roomName;
+    public CreateRoomResponse(Long roomId, String roomName) {
         this.roomId = roomId;
-        this.inviter = inviter;
-        this.members = members;
     }
 }

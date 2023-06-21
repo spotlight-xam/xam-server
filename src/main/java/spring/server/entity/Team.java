@@ -23,7 +23,7 @@ public class Team {
 
     private String teamName;
 
-    @OneToMany(mappedBy = "team")
+    @OneToMany
     private List<Room> rooms = new ArrayList<>();
 
     @OneToOne

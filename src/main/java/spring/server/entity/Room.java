@@ -22,12 +22,6 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Chat> chats = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room")
-    private List<RoomMember> roomMembers = new ArrayList<>();
-
-    @OneToOne
-    private Image profileImage;
-
     public Room(String roomName) {
         this.roomName = roomName;
     }

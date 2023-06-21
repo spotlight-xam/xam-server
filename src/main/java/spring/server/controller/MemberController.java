@@ -17,6 +17,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    //멤버의 프로필 조회
     @GetMapping("/{username}")
     public ResponseEntity<MemberProfileResponse> getMemberProfile(@PathVariable String username) {
         return ResponseEntity.ok().body(memberService.getMemberProfile(username));

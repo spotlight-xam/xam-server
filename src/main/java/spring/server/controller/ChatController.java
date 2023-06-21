@@ -25,25 +25,6 @@ public class ChatController {
 
     private final ChatService chatService;
 
-//    private final SimpMessagingTemplate simpMessagingTemplate;
-//
-//    @MessageMapping(value = "enter")
-//    public void enter(ChatDto message){
-//        message.setMessage(message.getSender() + "님이 채팅방에 참여하였습니다.");
-//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-//    }
-//
-//    @MessageMapping(value = "/message")
-//    public void message(ChatDto message){
-//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
-//    }
-
-    //채팅방 만들기
-    @PostMapping("/createroom")
-    public ResponseEntity<CreateRoomResponse> createRoom(CreateRoomRequest createRoomRequest){
-        return ResponseEntity.ok().body(chatService.createRoom(createRoomRequest));
-    }
-
     //채팅 메시지 보내기
     @MessageMapping("/messages")
     public void sendMessage(MessageRequest messageRequest) {
@@ -56,5 +37,23 @@ public class ChatController {
         return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
     }
 
+    //채팅 검색
+
+
+
+
+
+//    private final SimpMessagingTemplate simpMessagingTemplate;
+//
+//    @MessageMapping(value = "enter")
+//    public void enter(ChatDto message){
+//        message.setMessage(message.getSender() + "님이 채팅방에 참여하였습니다.");
+//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//    }
+//
+//    @MessageMapping(value = "/message")
+//    public void message(ChatDto message){
+//        simpMessagingTemplate.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
+//    }
 
 }

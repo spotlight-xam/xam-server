@@ -8,11 +8,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import spring.server.dto.chat.CreateRoomRequest;
+import spring.server.dto.chat.CreateRoomResponse;
+import spring.server.dto.member.ChatRoomMemberInfo;
 import spring.server.dto.room.RoomDto;
+import spring.server.entity.Member;
 import spring.server.entity.Room;
 import spring.server.repository.MemberRepository;
 import spring.server.repository.room.RoomRepository;
 import spring.server.result.error.exception.RoomNotExistException;
+import spring.server.util.JwtUtil;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -25,6 +30,16 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final MemberRepository memberRepository;
+    private final JwtUtil jwtUtil;
+
+    @Transactional
+    public CreateRoomResponse createRoom(CreateRoomRequest createRoomRequest) {
+
+        Room room = new Room(createRoomRequest.getRoomName());
+        roomRepository.save(room);
+
+        return new CreateRoomResponse(room.getId(), room.getRoomName());
+    }
 
     @Transactional
     public void createRoom(String roomName, RedirectAttributes rttr) {
@@ -68,4 +83,10 @@ public class RoomService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteRoom(Long roomId) {
+        roomRepository.findById(roomId)
+                .orElseThrow(RoomNotExistException::new);
+
+        roomRepository.deleteById(roomId);
+    }
 }
