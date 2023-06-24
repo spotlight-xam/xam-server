@@ -23,19 +23,19 @@ import spring.server.service.ChatService;
 @RequestMapping("/chat")
 public class ChatController {
 
-    private final ChatService chatService;
-
-    //채팅 메시지 보내기
-    @MessageMapping("/messages")
-    public void sendMessage(MessageRequest messageRequest) {
-        chatService.sendMessage(messageRequest);
-    }
-
-    //채팅방에 채팅 메시지 불러오기
-    @GetMapping("/chat/rooms/{roomId}/messages")
-    public ResponseEntity<Page<ChatDto>> getChatRoomMessages(@PathVariable Long roomId, @RequestParam Integer page) {
-        return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
-    }
+//    private final ChatService chatService;
+//
+//    //채팅 메시지 보내기
+//    @MessageMapping("/messages")
+//    public void sendMessage(MessageRequest messageRequest) {
+//        chatService.sendMessage(messageRequest);
+//    }
+//
+//    //채팅방에 채팅 메시지 불러오기
+//    @GetMapping("/chat/rooms/{roomId}/messages")
+//    public ResponseEntity<Page<ChatDto>> getChatRoomMessages(@PathVariable Long roomId, @RequestParam Integer page) {
+//        return ResponseEntity.ok().body(chatService.getChatRoomMessages(roomId, page));
+//    }
 
     //채팅 검색
 

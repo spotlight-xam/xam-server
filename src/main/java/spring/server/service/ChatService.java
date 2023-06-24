@@ -41,7 +41,7 @@ public class ChatService {
 
 
     private final JwtUtil jwtUtil;
-    private final SimpMessagingTemplate simpMessagingTemplate;
+//    private final SimpMessagingTemplate simpMessagingTemplate;
 
     public Room findRoomById(Long roomId) {
         Room room = roomRepository.findById(roomId)
@@ -68,7 +68,7 @@ public class ChatService {
         /**
          * 해당 멤버의 사용자 이름을 이용하여 /sub/ 뒤에 붙은 주소로 메시지를 보내는 역할을 합니다.
          */
-        roomMembers.forEach(r -> simpMessagingTemplate.convertAndSend("/sub/" + r.getMember().getUsername()));
+//        roomMembers.forEach(r -> simpMessagingTemplate.convertAndSend("/sub/" + r.getMember().getUsername()));
     }
 
     @Transactional

@@ -23,6 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import spring.server.config.security.filter.JwtAuthenticationFilter;
 //import spring.server.config.security.provider.CustomAuthenticationProvider;
 import spring.server.config.security.filter.JwtAuthorizationFilter;
@@ -78,13 +81,28 @@ public class SecurityConfig  {
                 .apply(new MyCustomDsl())
                 .and()
                 .authorizeRequests(authroize -> authroize
-                        .antMatchers("/api/v1/user/**")
+                        .antMatchers("/api/v1/user/**", "/ws/chat")
                         .access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                         .antMatchers("/api/v1/admin/**")
                         .access("hasRole('ROLE_ADMIN')")
                         .anyRequest().permitAll())
                 .build();
 //                .addFilterBefore(new JwtFilter(userAuthService, secretKey), UsernamePasswordAuthenticationFilter.class)
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+        corsConfiguration.addAllowedOriginPattern("*");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        corsConfiguration.setAllowCredentials(true);
+
+        final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+
+        return urlBasedCorsConfigurationSource;
     }
 
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -97,10 +115,10 @@ public class SecurityConfig  {
         @Override
         public void configure(HttpSecurity http) throws Exception {
 
-            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-            http
-                    .addFilterBefore(new JwtAuthenticationFilter(authenticationManager, jwtUtil), SecurityContextPersistenceFilter.class)
-                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
+//            AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+//            http
+//                    .addFilterBefore(new JwtAuthenticationFilter(authenticationManager, jwtUtil), SecurityContextPersistenceFilter.class)
+//                    .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
         }
     }
 
