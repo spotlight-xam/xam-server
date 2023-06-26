@@ -15,7 +15,7 @@ import spring.server.dto.login.UserSignupRequest;
 import spring.server.repository.MemberRepository;
 import spring.server.repository.email.EmailRepository;
 import spring.server.result.error.exception.EmailAuthTokenNotFoundException;
-import spring.server.result.error.exception.EmailIsAlreadyExisted;
+import spring.server.result.error.exception.UserAlReadyExisted;
 import spring.server.result.error.exception.UserNotFoundException;
 import spring.server.service.email.EmailService;
 import spring.server.util.JwtUtil;
@@ -41,7 +41,7 @@ public class UserAuthService {
 
         //유저 업승ㅁ
         Member member = memberRepository.findByUsername(userLoginRequest.getUsername())
-                .orElseThrow(EmailIsAlreadyExisted::new);
+                .orElseThrow(UserNotFoundException::new);
 
         log.info("request={}, user pw={}", userLoginRequest.getPassword(), member.getPassword());
 

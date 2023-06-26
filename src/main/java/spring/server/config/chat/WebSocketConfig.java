@@ -18,28 +18,23 @@ public class WebSocketConfig implements WebSocketConfigurer  {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
-        log.info("web socket");
-        registry.addHandler(chatHandler, "/ws/chat").setAllowedOrigins("*");
-
-
+        registry.addHandler(chatHandler, "ws-chat").setAllowedOrigins("*");
     }
 
 
-}
 
-
-//endpoint를 /stomp로 하고, allowedOrigins를 "*"로 하면 페이지에서
-//Get /info 404 Error가 발생한다. 그래서 아래와 같이 2개의 계층으로 분리하고
-//origins를 개발 도메인으로 변경하니 잘 동작하였다.
-//이유는 왜 그런지 아직 찾지 못함
+    //endpoint를 /stomp로 하고, allowedOrigins를 "*"로 하면 페이지에서
+    //Get /info 404 Error가 발생한다. 그래서 아래와 같이 2개의 계층으로 분리하고
+    //origins를 개발 도메인으로 변경하니 잘 동작하였다.
+    //이유는 왜 그런지 아직 찾지 못함
 //    public void registerStompEndpoints(StompEndpointRegistry registry) {
 //
 //        log.info("registerStompEndpoints 실행");
-//        registry.addEndpoint("/stomp/chat")
+//        registry.addEndpoint("/ws-chat")
 //                .setAllowedOrigins("*");
 //    }
 
-/*어플리케이션 내부에서 사용할 path를 지정할 수 있음*/
+    /*어플리케이션 내부에서 사용할 path를 지정할 수 있음*/
 
 /**
  * setApplicationDestinationPrefixes : Client에서 SEND 요청을 처리
@@ -47,8 +42,13 @@ public class WebSocketConfig implements WebSocketConfigurer  {
  * enableSimpleBroker
  * 해당 경로로 SimpleBroker를 등록. SimpleBroker는 해당하는 경로를 SUBSCRIBE하는 Client에게 메세지를 전달하는 간단한 작업을 수행
  */
-//    public void configureMessageBroker(MessageBrokerRegistry registry) {
-//
-//        registry.setApplicationDestinationPrefixes("/pub");
-//        registry.enableSimpleBroker("/sub");
-//    }
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+
+        registry.setApplicationDestinationPrefixes("/pub");
+        registry.enableSimpleBroker("/sub");
+    }
+
+
+}
+
+

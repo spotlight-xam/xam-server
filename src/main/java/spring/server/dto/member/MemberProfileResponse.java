@@ -7,6 +7,7 @@ import spring.server.entity.Member;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 public class MemberProfileResponse {
@@ -19,10 +20,10 @@ public class MemberProfileResponse {
 
     private List<Feed> feedList = new ArrayList<>();
 
-    public MemberProfileResponse(Member member) {
-        this.memberId = member.getId();
-        this.username = member.getUsername();
-        this.profileImage = member.getProfileImage();
-        this.feedList = member.getFeedList();
+    public MemberProfileResponse(Optional<Member> member) {
+        this.memberId = member.get().getId();
+        this.username = member.get().getUsername();
+        this.profileImage = member.get().getProfileImage();
+        this.feedList = member.get().getFeedList();
     }
 }
